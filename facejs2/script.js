@@ -16,10 +16,8 @@ function getListKaryawan() {
   $.ajax({
     url: 'http://localhost:8080/api/karyawan/list',
     type: 'GET',
-    // mode: 'no-cors',
     contentType: 'application/json',
     success: function (response) {
-      // sama dengan
       for (let index = 0; index < response.length; index++) {
         const item = response[index];
         labels.push(item.nama);
@@ -31,9 +29,30 @@ function getListKaryawan() {
   });
 
 
+
 }
 
+function absen(nama) {
+  var postData = { name: nama };
+  $.ajax({
+    url: 'http://192.168.18.157:8080/api/karyawan/absen',
+    type: 'POST',
+    mode: 'no-cors',
+    data: JSON.stringify(postData),
+    contentType: 'application/json; charset=utf-8',
+    processData: true,
+    xhrFields: {
+      withCredentials: false
+    },
+    success: function (response) {
+      alert('Absen Berhasil');
+    },
+    error: function (xhr, status, error) {
+      alert('Error: ' + error);
+    }
+  });
 
+}
 
 async function startVideo() {
   navigator.getUserMedia(
@@ -71,7 +90,7 @@ video.addEventListener('play', async () => {
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
       drawBox.draw(canvas)
 
-      
+
       if (!result.toString().includes('unknown')) {
         cleanResult = result.toString().split('(')[0].trim();
         if (cleanResult == prevFace) {
@@ -86,6 +105,7 @@ video.addEventListener('play', async () => {
       if (recognizeCounter == 10) {
         alert('Anda Dikenali ' + cleanResult);
         recognizeCounter = 0;
+        absen(cleanResult);
         prevFace = '';
       }
     })
