@@ -35,7 +35,7 @@ function getListKaryawan() {
 function absen(nama) {
   var postData = { name: nama };
   $.ajax({
-    url: 'http://192.168.18.157:8080/api/karyawan/absen',
+    url: 'http://192.168.18.157:8080/api/karyawan/absen-keluar',
     type: 'POST',
     mode: 'no-cors',
     data: JSON.stringify(postData),
